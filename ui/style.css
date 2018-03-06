@@ -1,0 +1,55 @@
+html {
+  font-size: 10px;
+  background: url('./bg.png');
+  background-position: center;
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-color: rgb(26%, 29%, 29%)
+}
+body,html {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.keys, .scores, .standing {
+  display: flex;
+  flex: 2;
+  min-height: 20vh;
+  align-items: center;
+  justify-content: center;
+}
+.key, .player, .prompt {
+  border: .4rem solid black;
+  border-radius: .5rem;
+  margin: 1rem;
+  font-size: 1.5rem;
+  padding: 1rem .5rem;
+  transition: all .07s ease;
+  width: 10rem;
+  text-align: center;
+  color: white;
+  background: rgba(0,0,0,0.4);
+  text-shadow: 0 0 .5rem black;
+}
+.prompt{
+  font-size: 1.5rem;
+  width: 10rem;
+}
+.playing {
+  transform: scale(1.1);
+  border-color: #ffc600;
+  box-shadow: 0 0 1rem #ffc600;
+}
+
+kbd {
+  display: block;
+  font-size: 4rem;
+}
+
+.sound {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: .1rem;
+  color: #ffc600;
+}

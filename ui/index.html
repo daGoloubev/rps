@@ -3,10 +3,64 @@
   <head>
     <meta charset="utf-8">
     <title>ROCK PAPER SCISSORS</title>
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
+    <div class="scores">
+      <div class="player">
+        <kbd class="Human">0</kbd>
+        <span class="sound">Human</span>
+      </div>
+      <div class="player">
+        <kbd class="Computer">0</kbd>
+        <span class="sound">Computer</span>
+      </div>
+    </div>
+    <div class="standing">
+      <div class="prompt">
+        <span class="sound you"></span>
+        <kbd class="winning"></kbd>
+        <span class="sound">Try again</span>
+      </div>
+    </div>
+    <div class="scores">
+
+    </div>
+    <div class="keys">
+      <div data-key="82" class="key" value="rock">
+        <kbd>R</kbd>
+        <span class="sound">Rock</span>
+      </div>
+      <div data-key="80" class="key" value="paper">
+        <kbd>P</kbd>
+        <span class="sound">Paper</span>
+      </div>
+      <div data-key="83" class="key" value="scissors">
+        <kbd>S</kbd>
+        <span class="sound">Scissors</span>
+      </div>
+    </div>
   </body>
   <script type="text/javascript">
+    let playerSelection, computerSelection;
+    let playerScore       = 0;
+    let computerScore     = 0;
+    let playerTotal       = 0;
+    let computerTotal     = 0;
+    function getUserInput(e){
+      const key   = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+      if(!key) return;
+      key.classList.add('playing');
+      playerSelection = key.getAttribute('value');
+      game();
+    }
+    function removeTransition(e){
+      if(e.propertyName !== 'transform') return; // skip if not transition event
+      this.classList.remove('playing');
+    };
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    window.addEventListener('keydown', getUserInput);
     function getRandomInt(max){
       return Math.floor(Math.random() * Math.floor(max));
     };
@@ -22,63 +76,56 @@
         console.error('Cant pick random number.' );
       }
     };
-    let playerSelection, computerSelection;
-    let playerScore       = 0;
-    let computerScore     = 0;
-    const max             = 5;
-    function print (){
-      console.log('Player ==> '+playerSelection+' | Computer ==> '+computerSelection);
-    }
     function win(){
-      if(playerScore === max){
-        console.log('Player wins');
-      } else if (computerScore === max){
-        console.log('Computer wins');
+      console.log(playerScore, computerScore);
+      if(playerScore > computerScore){
+        document.getElementsByClassName('you')[0].innerHTML = 'You';
+        document.getElementsByClassName('winning')[0].innerHTML = 'Win';
+      } else if (playerScore < computerScore){
+        document.getElementsByClassName('you')[0].innerHTML = 'You';
+        document.getElementsByClassName('winning')[0].innerHTML = 'Lost';
+      } else {
+        document.getElementsByClassName('you')[0].innerHTML = 'Ooh! Its a ';
+        document.getElementsByClassName('winning')[0].innerHTML = 'TIE';
       }
     }
     function game(){
-      while (playerScore !== max && computerScore < max || computerScore !== max && playerScore < max) {
-        playerSelection = window.prompt('paper, rock, scissors?');
+        playerScore = 0;
+        computerScore = 0;
         computerSelection = computerPlay();
-        print();
         playRound(playerSelection, computerSelection);
-        console.log('P: '+playerScore+' C: '+computerScore);
+        document.getElementsByClassName('Human')[0].innerHTML = playerTotal;
+        document.getElementsByClassName('Computer')[0].innerHTML = computerTotal;
         win();
-      };
     };
     function playRound(playerSelection, computerSelection) {
-	     if(playerSelection === computerSelection){
-         console.log('TIE!');
+       if(playerSelection === computerSelection){
+         document.getElementsByClassName('you')[0].innerHTML = 'Ooh! Its a ';
+         document.getElementsByClassName('winning')[0].innerHTML = 'TIE';
        } else {
          if(playerSelection === 'rock'){
            if(computerSelection === 'paper'){
-             console.log('Paper beat Rock!');
-             playerScore++;
+             playerScore++; playerTotal++;
            } else if(computerSelection === 'scissors'){
-             console.log('Scissors beat Rock!');
-             computerScore++;
+             computerScore++; computerTotal++;
            }
          } else if(playerSelection === 'paper'){
            if(computerSelection === 'rock'){
-             console.log('Paper beat Rock!');
-             playerScore++;
+             playerScore++; playerTotal++;
            } else if(computerSelection === 'scissors'){
-             console.log('Scissors beat Paper!');
-             computerScore++;
+             computerScore++; computerTotal++;
            }
          } else if(playerSelection === 'scissors') {
            if(computerSelection === 'paper'){
-             console.log('Scissors beat Paper!');
-             playerScore++;
+             playerScore++; playerTotal++;
            } else if(computerSelection === 'rock'){
-             console.log('Rock beat scissors!');
-             computerScore++;
+             computerScore++; computerTotal++;
            }
          } else {
            console.error('Invalid input, accepted values are rock, paper and scissors');
          }
        }
     };
-    game();
   </script>
+  <!-- <script type="text/javascript" src="./source.js"></script> -->
 </html>
